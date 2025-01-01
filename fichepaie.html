@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Fiche de Paie</title>
+</head>
+<body>
+    <h1>Fiche de Paie</h1>
+    <p><strong>Employé :</strong> {{ salaire.employe.nom }} {{ salaire.employe.prenom }}</p>
+    <p><strong>Mois/Année :</strong> {{ salaire.mois }}/{{ salaire.annee }}</p>
+    <p><strong>Salaire de base :</strong> {{ salaire.salaire_de_base }} DA</p>
+    <p><strong>Primes :</strong> {{ salaire.prime|default:0 }} DA</p>
+    <p><strong>absences :</strong> {{ salaire.absences }}jours</p>
+    <p><strong>Retenues (Absences) :</strong> {{ salaire.retenue_absence }} DA</p>
+    <p><strong>Avances (Massrouf) :</strong> {{ salaire.avance_massrouf }} DA</p>
+    <h2><strong>Salaire Net :</strong> {{ salaire_net }} DA</h2>
+
+</body>
+</html>

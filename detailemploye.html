@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de l'Employé</title>
+</head>
+<body>
+    {% if employe %}
+        <h1>Détails de l'Employé</h1>
+        <ul>
+            <li>Nom : {{ employe.nom }}</li>
+            <li>Prénom : {{ employe.prenom }}</li>
+            <li>Adresse : {{ employe.adresse}}</li>
+            <li>sexe : {{ employe.sexe}}</li>
+            <li>Date de Recrutement : {{ employe.date_recrutement }}</li>
+            <li>lieu_naissance : {{ employe.lieu_naissance}}</li>
+            <li>date_naissance : {{ employe.date_naissance}}</li>
+            <li>email : {{ employe.email}}</li>
+            <li>tel : {{ employe.tel}}</li>
+            <li>situation_fam : {{ employe.situation_fam}}</li>
+            <li>fonction : {{ employe.fonction}}</li>
+            <li>Service : {{ employe.service.nom }}</li>
+        
+        </ul>
+    {% else %}
+        <p>Aucun employé trouvé.</p>
+    {% endif %}
+</body>
+</html>

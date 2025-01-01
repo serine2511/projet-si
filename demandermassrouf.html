@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Demande d'Avance</title>
+</head>
+<body>
+    <h1>Demander une Avance (Massrouf)</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <label for="justification">Justification :</label>
+        <textarea name="justification_massrouf" id="justification" required></textarea>
+        <button type="submit">Envoyer la demande</button>
+    </form>
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li class="error">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
+</body>
+</html>

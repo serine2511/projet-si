@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des candidatures</title>
+</head>
+<body>
+    <h4>Liste des candidatures :</h4> 
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Téléphone</th>
+                <th>Email</th>
+                <th>Offres postulées</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for candidature in candidatures %}
+            <tr>
+                <td>{{ candidature.nom }}</td>
+                <td>{{ candidature.tel }}</td>
+                <td>{{ candidature.email }}</td>
+                <td>
+                    {% for offre in candidature.offre.all %}
+                        {{ offre.titre }}<br>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Aucune candidature trouvée.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

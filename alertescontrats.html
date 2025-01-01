@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Alertes Contrats</title>
+</head>
+<body>
+    <h1>Alertes des Contrats</h1>
+    {% if alertes %}
+        <ul>
+            {% for alerte in alertes %}
+                <li>
+                    {{ alerte.employe }} - {{ alerte.message }}
+                    <a href="{% url 'afficher_contrat' id=alerte.contrat_id %}">Voir Détails</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucune alerte à afficher.</p>
+    {% endif %}
+</body>
+</html>
