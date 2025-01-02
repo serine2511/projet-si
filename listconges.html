@@ -9,7 +9,12 @@
 <body class="bg-dark text-light">
     <div class="container py-5">
         <h1>Liste des Congés</h1>
+        {% if is_employe %}
         <a href="{% url 'demander_conge' %}" class="btn btn-primary mb-3">Demander un Congé</a>
+        {% endif %}
+        {% if is_agent_rh %}
+        <a href="{% url 'liste_demandes' %}" class="btn btn-primary mb-3">Liste des demandes </a>
+        {% endif %}
         <table class="table table-striped table-dark">
             <thead>
                 <tr>
@@ -18,8 +23,8 @@
                     <th>Type de Congé</th>
                     <th>Début</th>
                     <th>Fin</th>
-                    <th>Solde annuel</th>
-                    <th>Solde maladie</th>
+                    <th>solde annuel</th>
+                    <th>solde maladie</th>
                     <th>statut</th>
                 </tr>
             </thead>
@@ -31,10 +36,10 @@
                     <td>{{ conge.type_conge }}</td>
                     <td>{{ conge.date_debut }}</td>
                     <td>{{ conge.date_fin }}</td>
-                    <td>{{ conge.solde_annuel  }} jours</td>
+                    <td>{{ conge.solde_annuel }} jours</td>
                     <td>{{ conge.solde_maladie }} jours</td>
-                   <td>{{ conge.statut }}</td>
-
+                    <td>{{ conge.statut }}</td>
+                    
                 </tr>
                 {% endfor %}
             </tbody>

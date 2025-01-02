@@ -25,7 +25,9 @@
                 <td>{{ salaire.calculer_salaire }} DA</td>
                 <td>
                     <a href="{% url 'fiche_paie' salaire.id %}">Voir Fiche</a>
+                    {% if is_employe %}
                     <a href="{% url 'demander_massrouf' salaire.id %}">Demander Massrouf</a>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}

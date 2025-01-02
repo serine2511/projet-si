@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% load static %} 
+    {% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +18,15 @@
                 <button type="submit" class="btn btn-secondary">Rechercher</button>
             </form>
 
+            <!-- Bouton de déconnexion -->
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Déconnexion</button>
+            </form>
+            {% if is_agent_rh %}
             <a href="{% url 'ajouter_employe' %}" class="btn btn-primary">+ Ajouter employé</a>
+            {% endif %}
+            
         </div>
 
         <div class="table-responsive">
@@ -42,7 +50,7 @@
                         <td>{{ employe.prenom }}</td>
                         <td>{{ employe.service.nom }}</td>
                         <td>{{ employe.fonction }}</td>
-                        <td>{{ employe.date_recrutement}}</td>
+                        <td>{{ employe.date_recrutement|date:"d/m/Y" }}</td>
                         <td>
                             <a href="{% url 'detail_employe' employe.id %}" class="btn btn-sm btn-success">✏️</a>
                             <a href="{% url 'modifier_employe' employe.id %}" class="btn btn-sm btn-warning">✏️</a>

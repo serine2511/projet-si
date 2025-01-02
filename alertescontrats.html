@@ -10,7 +10,9 @@
         <ul>
             {% for alerte in alertes %}
                 <li>
-                    {{ alerte.employe }} - {{ alerte.message }}
+                    <strong>{{ alerte.employe }}</strong> - {{ alerte.message }}
+                    <br>Date de fin : {{ alerte.date_fin }}
+                    <br>
                     <a href="{% url 'afficher_contrat' id=alerte.contrat_id %}">Voir Détails</a>
                 </li>
             {% endfor %}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coordonnées de l'employé</title>
+</head>
+<body>
+    <h1>Coordonnées de l'Employé</h1>
+    <p><strong>Nom:</strong> {{ employe.nom }}</p>
+    <p><strong>Prénom:</strong> {{ employe.prenom }}</p>
+
+    <h2>Contrats</h2>
+    <ul>
+        {% for contrat in contrats %}
+            <li>{{ contrat.type_contrat }} - {{ contrat.date_debut }} à {{ contrat.date_fin }}</li>
+        {% empty %}
+            <li>Aucun contrat actif trouvé.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Congés</h2>
+    <ul>
+        {% for conge in conges %}
+            <li>{{ conge.date_debut }} à {{ conge.date_fin }} - {{ conge.type_conge }}</li>
+        {% empty %}
+            <li>Aucun congé trouvé.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Salaires</h2>
+    <ul>
+        {% for salaire in salaires %}
+            <li>{{ salaire.montant }} - {{ salaire.date_paiement }}</li>
+        {% empty %}
+            <li>Aucun salaire trouvé.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

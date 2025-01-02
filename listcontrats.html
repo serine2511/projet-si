@@ -5,12 +5,14 @@
 </head>
 <body>
     <h1>Liste des Contrats</h1>
+    {%if is_responsable_rh%}
     <a href="{% url 'ajouter_contrat' %}">Ajouter un contrat</a>
     <a href="{% url 'liste_archives' %}">Voir l'archive</a>
     <form method="get" action="{% url 'liste_contrats' %}">
         <input type="text" name="q" placeholder="Rechercher..." value="{{ query }}">
         <button type="submit">Rechercher</button>
     </form>
+    {%endif%}
     <table>
         <tr>
             <th>Nom de l'Employé</th>

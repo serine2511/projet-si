@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des entretiens</title>
+</head>
+<body>
+    <h1>Liste des entretiens</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Candidat</th>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Type Entretient </th>
+                <th>Recruteure</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entretien in entretiens %}
+            <tr>
+                <td>{{ entretien.candidat.nomC }}</td>
+                <td>{{ entretien.date_entretien }}</td>
+                <td>{{ entretien.heure }}</td>
+                <td>{{ entretien.type_entretien }}</td>
+                <td>{{ entretien.recruteure }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

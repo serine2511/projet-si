@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - Application RH</title>
+
+    <!-- Bootstrap 5 CSS pour un design moderne -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts pour améliorer la typographie -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome pour des icônes élégantes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Chart.js pour les graphiques interactifs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fc;
+        }
+
+        .card-header {
+            font-weight: bold;
+        }
+
+        .card-body {
+            font-size: 18px;
+        }
+
+        .dashboard-header {
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .card {
+            border-radius: 10px;
+        }
+
+        .stat-card .card-body {
+            padding: 30px;
+        }
+
+        .chart-container {
+            margin-top: 40px;
+        }
+    </style>
+                <!-- Bouton de déconnexion -->
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Déconnexion</button>
+                </form>
+</head>
+<body>
+                <a href="{% url 'liste_employes' %}" class="btn btn-info">Liste Employes</a>
+                <a href="{% url 'liste_conges' %}" class="btn btn-info">Liste Conges</a>
+                <a href="{% url 'liste_candidature' %}" class="btn btn-info">Liste candidatures</a>
+                <a href="{% url 'liste_salaires' %}" class="btn btn-info">Liste salaires</a>
+                <a href="{% url 'liste_contrats' %}" class="btn btn-info">Liste contrats</a>
+                <a href="{% url 'liste_formations' %}" class="btn btn-info">Liste formations</a>
+
+    <div class="container py-5">
+        <!-- En-tête du dashboard -->
+        <div class="row">
+            <div class="col-12">
+                <h1 class="dashboard-header">Tableau de Bord</h1>
+                <p class="lead">Bienvenue sur le tableau de bord de l'application RH. Consultez les statistiques et les graphiques pour un aperçu rapide.</p>
+            </div>
+        </div>
+
+        <!-- Statistiques principales -->
+        <div class="row">
+            <!-- Nombre d'offres d'emploi -->
+            <div class="col-12 col-md-4 mb-4">
+                <div class="card stat-card text-white bg-primary">
+                    <div class="card-body">
+                        <h5 class="card-title">Offres d'emploi</h5>
+                        <p class="card-text display-4">{{ total_offres }}</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-briefcase"></i></span>
+                        <a href="#" class="text-white">Voir plus</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nombre de candidats -->
+            <div class="col-12 col-md-4 mb-4">
+                <div class="card stat-card text-white bg-success">
+                    <div class="card-body">
+                        <h5 class="card-title">Candidats</h5>
+                        <p class="card-text display-4">{{ total_candidats }}</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-users"></i></span>
+                        <a href="#" class="text-white">Voir plus</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nombre d'employés -->
+            <div class="col-12 col-md-4 mb-4">
+                <div class="card stat-card text-white bg-warning">
+                    <div class="card-body">
+                        <h5 class="card-title">Employés</h5>
+                        <p class="card-text display-4">{{ total_employes }}</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-user-tie"></i></span>
+                        <a href="#" class="text-white">Voir plus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graphiques -->
+        <div class="row">
+            <!-- Graphique des offres d'emploi -->
+            <div class="col-12 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5>Graphique des Offres d'Emploi</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="offreChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Graphique des candidats -->
+            <div class="col-12 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5>Graphique des Candidats</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="candidatChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script JS pour le graphique -->
+    <script>
+        // Graphique des Offres d'Emploi
+        var ctxOffre = document.getElementById('offreChart').getContext('2d');
+        var offreChart = new Chart(ctxOffre, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Offres d\'emploi créées',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Graphique des Candidats
+        var ctxCandidat = document.getElementById('candidatChart').getContext('2d');
+        var candidatChart = new Chart(ctxCandidat, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Candidats inscrits',
+                    data: [8, 15, 5, 6, 8, 12],
+                    borderColor: 'rgba(40, 167, 69, 1)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+
+</body>
+</html>
+

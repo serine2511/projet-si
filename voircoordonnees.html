@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coordonnées du Candidat</title>
+</head>
+<body>
+
+    {% if candidat %}
+
+    <h1>Coordonnées du Candidat</h1>
+    <div> 
+        <p><strong>Nom:</strong> {{ candidat.nomC }}</p>
+        <p><strong>Email:</strong> {{ candidat.emailC }}</p>
+        <p><strong>Téléphone:</strong> {{ candidat.telC }}</p>
+        <p><strong>CV:</strong> <a href="{{ candidat.cv_path.url }}" target="_blank">Télécharger le CV</a></p>
+
+        {% if inscriptions %}
+        {% for inscription in inscriptions %}
+        <p><strong>Offre d'emploi:</strong> {{ inscription.offre.poste }}</p>
+        <p><strong>Service:</strong> {{ inscription.offre.service }}</p>
+        {% endfor %}
+        {% endif %}
+        <p><strong>Statut de la demande:</strong> {{ candidat.statut }}</p>
+        
+    {% else %}
+        <p>Aucun candidat trouvé.</p>
+    {% endif %}
+    <a href="{% url 'home' %}">Retour à l'accueil</a>
+</body>
+</html>

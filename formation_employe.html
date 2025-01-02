@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Formations</title>
+</head>
+<body>
+    <h1>Mes Formations</h1>
+    {%if employe%}
+    <ul>
+        {% for formation in formations %}
+        <li>
+            <strong>{{ formation.titre }}</strong> ({{ formation.theme }})
+            <p>Du {{ formation.date_debut }} au {{ formation.date_fin }}</p>
+        </li>
+        {% empty %}
+        <p>Vous n'êtes inscrit à aucune formation.</p>
+        {% endfor %}
+    </ul>
+    {%endif%}
+    <a href="{% url 'liste_formations' %}">Retour à toutes les formations</a>
+</body>
+</html>

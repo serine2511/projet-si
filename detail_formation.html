@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail de la Formation</title>
+</head>
+<body>
+    {% if formation %}
+        <h1>{{ formation.titre }}</h1>
+        <p><strong>Thème :</strong> {{ formation.theme }}</p>
+        <p><strong>Formulaire :</strong> {{ formation.formulaire }}</p>
+        <p><strong>Date de début :</strong> {{ formation.date_debut }}</p>
+        <p><strong>Date de fin :</strong> {{ formation.date_fin }}</p>
+        <p><strong>Employés :</strong> 
+            {% for employe in formation.employe.all %}
+              <li> {{ employe.nom }} {{ employe.prenom }}</li> 
+                {% if not forloop.last %}
+                {% endif %}
+            {% endfor %}
+        </p>
+        <p><strong>Créé le :</strong> {{ formation.created_at }}</p>
+        <p><strong>Mis à jour le :</strong> {{ formation.updated_at }}</p>
+    {% else %}
+        <p>Formation introuvable.</p>
+    {% endif %}
+
+    <a href="{% url 'liste_formations' %}">Retour à la liste</a>
+</body>
+</html>
