@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Salaires</title>
+</head>
+<body>
+    <h1>Liste des Salaires</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Mois/Année</th>
+                <th>Salaire Net</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for salaire in salaires %}
+            <tr>
+                <td>{{ salaire.employe.nom }}</td>
+                <td>{{ salaire.employe.prenom }}</td>
+                <td>{{ salaire.mois }}/{{ salaire.annee }}</td>
+                <td>{{ salaire.calculer_salaire }} DA</td>
+                <td>
+                    <a href="{% url 'fiche_paie' salaire.id %}">Voir Fiche</a>
+                    
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

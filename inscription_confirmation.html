@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation d'Inscription</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Confirmation d'Inscription</h1>
+        <div class="message-box">
+            <p>{{ message }}</p>
+        </div>
+        <div class="formation-details">
+            <h2>Détails de la Formation</h2>
+            <p><strong>Titre :</strong> {{ formation.titre }}</p>
+            <p><strong>Thème :</strong> {{ formation.theme }}</p>
+            <p><strong>Date de début :</strong> {{ formation.date_debut }}</p>
+            <p><strong>Date de fin :</strong> {{ formation.date_fin }}</p>
+        </div>
+    </div>
+</body>
+</html>

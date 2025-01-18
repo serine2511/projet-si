@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Offres d'Emploi</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body class="bg-dark text-light">
+    <div class="container py-5">
+        <!-- Bouton de déconnexion -->
+        <div class="d-flex justify-content-end mb-3">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Déconnexion</button>
+            </form>
+        </div>
+
+        <!-- En-tête -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="text-light">Liste des Offres d'Emploi</h1>
+            <!-- Bouton pour voir les candidatures -->
+            {% if is_candidat %}
+            <a href="{% url 'voir_coordonnees' %}" class="btn btn-info">Voir mes candidatures</a>
+            {% endif %}
+        </div>
+
+        <!-- Barre de recherche -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <form method="get" action="{% url 'liste_offre' %}" class="d-flex">
+                <input type="text" name="q" value="{{ query }}" placeholder="Rechercher une offre..." class="form-control me-2" style="max-width: 300px;">
+                <button type="submit" class="btn btn-secondary">Rechercher</button>
+            </form>
+
+            {% if is_agent_rh %}
+            <a href="{% url 'ajouter_offre' %}" class="btn btn-primary">+ Ajouter une offre</a>
+            {% endif %}
+        </div>
+
+        <!-- Tableau des offres -->
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered bg-light text-dark">
+                <thead class="table-secondary text-center">
+                    <tr>
+                        <th>Poste</th>
+                        <th>Description</th>
+                        <th>Date de publication</th>
+                        <th>Département</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for offre in offre %}
+                    <tr class="text-center">
+                        <td>{{ offre.poste }}</td>
+                        <td>{{ offre.description }}</td>
+                        <td>{{ offre.date_publication|date:"d/m/Y" }}</td>
+                        <td>{{ offre.service.nom }}</td>
+                        <td>
+                            {% if is_agent_rh %}
+                            <a href="{% url 'supprimer_offre' offre.id %}" class="btn btn-sm btn-danger" aria-label="Supprimer l'offre">
+                                🗑️ Supprimer
+                            </a>
+                            {% elif is_candidat %}
+                            <a href="{% url 'inscrire_offre' offre.id %}" class="btn btn-primary" aria-label="S'inscrire à l'offre">
+                                S'inscrire
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">Aucune offre trouvée.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Fichier JS Bootstrap (optionnel si besoin de fonctionnalités JS) -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

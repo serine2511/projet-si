@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assigner des employés</title>
+</head>
+<body>
+    <h1>Assigner des employés à un manager</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="manager">Sélectionnez un manager :</label>
+        <select name="manager" id="manager" required>
+            {% for manager in managers %}
+                <option value="{{ manager.id }}">{{ manager.prenom }} {{ manager.nom }}</option>
+            {% endfor %}
+        </select>
+
+        <h2>Liste des employés :</h2>
+        {% for employe in employes %}
+            <input type="checkbox" name="employes" value="{{ employe.id }}">
+            {{ employe.prenom }} {{ employe.nom }}<br>
+        {% endfor %}
+
+        <button type="submit">Assigner</button>
+    </form>
+</body>
+</html>

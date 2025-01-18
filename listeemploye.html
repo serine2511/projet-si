@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Employés</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body class="bg-dark text-light">
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="text-light">Liste des Employés</h1>
+
+            <!-- Formulaire de recherche -->
+            <form method="get" action="{% url 'liste_employes' %}">
+                <input type="text" name="q" value="{{ query }}" placeholder="Rechercher un employé..." class="form-control" style="width: 250px; display: inline;">
+                <button type="submit" class="btn btn-secondary">Rechercher</button>
+            </form>
+
+            <!-- Bouton de déconnexion -->
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Déconnexion</button>
+            </form>
+            {% if is_agent_rh %}
+            <a href="{% url 'ajouter_employe' %}" class="btn btn-primary">+ Ajouter employé</a>
+            {% endif %}
+            
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered bg-light text-dark">
+                <thead class="table-secondary text-center">
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Département</th>
+                        <th>Poste actuel</th>
+                        <th>Date Embauche</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for employe in employes %}
+                    <tr class="text-center">
+                        <td>{{ employe.id }}</td>
+                        <td>{{ employe.nom }}</td>
+                        <td>{{ employe.prenom }}</td>
+                        <td>{{ employe.service.nom }}</td>
+                        <td>{{ employe.fonction }}</td>
+                        <td>{{ employe.date_recrutement|date:"d/m/Y" }}</td>
+                        <td>
+                            <a href="{% url 'detail_employe' employe.id %}" class="btn btn-sm btn-success">✏️</a>
+                            <a href="{% url 'modifier_employe' employe.id %}" class="btn btn-sm btn-warning">✏️</a>
+                            <a href="{% url 'supprimer_employe' employe.id %}" class="btn btn-sm btn-danger">🗑️</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">Aucun employé trouvé.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

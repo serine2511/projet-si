@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>archive</title>
+</head>
+<body>
+    <form method="get" action="{% url 'liste_archives' %}">
+        <input type="text" name="q" placeholder="Rechercher..." value="{{ query }}">
+        <button type="submit">Rechercher</button>
+    </form>
+    <h1>Archive des Contrats</h1>
+<a href="{% url 'liste_contrats' %}">Retour à la liste des contrats actifs</a>
+<table>
+    <thead>
+        <tr>
+            <th>Employé</th>
+            <th>Type de Contrat</th>
+            <th>Date Début</th>
+            <th>Date Fin</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contrat in archives %}
+        <tr>
+            <td>{{ contrat.employe }}</td>
+            <td>{{ contrat.type_contrat }}</td>
+            <td>{{ contrat.date_debut }}</td>
+            <td>{{ contrat.date_fin|default:"Indéterminée" }}</td>
+            <td>
+                <!-- Ajouter des actions, comme restaurer un contrat -->
+                <a href="{% url 'restaurer_contrat' contrat.id %}">Restaurer</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">Aucune archive disponible.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

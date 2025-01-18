@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Fiche de Paie</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <h1>Fiche de Paie</h1>
+    <p><strong>Employé :</strong> {{ salaire.employe.nom }} {{ salaire.employe.prenom }}</p>
+    <p><strong>Mois/Année :</strong> {{ salaire.mois }}/{{ salaire.annee }}</p>
+    <p><strong>Salaire de base :</strong> {{ salaire.salaire_de_base }} DA</p>
+    <p><strong>Primes :</strong> {{ salaire.prime|default:0 }} DA</p>
+    <p><strong>Absences :</strong> {{ salaire.absences }} jours</p>
+    <p><strong>Retenues (Absences) :</strong> {{ salaire.retenue_absence }} DA</p>
+    <p><strong>Avances (Massrouf) :</strong> {{ salaire.avance_massrouf }} DA</p>
+    <h2><strong>Salaire Net :</strong> {{ salaire_net }} DA</h2>
+
+    <!-- Bouton pour télécharger le PDF -->
+    <button id="download-pdf">Télécharger la fiche de paie en PDF</button>
+
+    <script>
+        document.getElementById('download-pdf').addEventListener('click', function () {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Ajouter du contenu au PDF
+            doc.setFontSize(16);
+            
+            // Calculer la largeur du texte
+            const title = 'Fiche de Paie';
+            const titleWidth = doc.getStringUnitWidth(title) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+            
+            // Calculer la position x pour centrer le texte
+            const x = (doc.internal.pageSize.width - titleWidth) / 2;
+
+            // Placer le titre centré
+            doc.text(title, x, 10);
+
+            doc.setFontSize(12);
+            doc.text(`Employé : {{ salaire.employe.nom }} {{ salaire.employe.prenom }}`, 10, 20);
+            doc.text(`Mois/Année : {{ salaire.mois }}/{{ salaire.annee }}`, 10, 30);
+            doc.text(`Salaire de base : {{ salaire.salaire_de_base }} DA`, 10, 40);
+            doc.text(`Primes : {{ salaire.prime|default:0 }} DA`, 10, 50);
+            doc.text(`Absences : {{ salaire.absences }} jours`, 10, 60);
+            doc.text(`Retenues (Absences) : {{ salaire.retenue_absence }} DA`, 10, 70);
+            doc.text(`Avances (Massrouf) : {{ salaire.avance_massrouf }} DA`, 10, 80);
+            doc.text(`Salaire Net : {{ salaire_net }} DA`, 10, 90);
+
+            // Sauvegarder le PDF avec un nom personnalisé
+            doc.save('fiche_paie.pdf');
+        });
+    </script>
+</body>
+</html>

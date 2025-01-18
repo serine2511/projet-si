@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Services</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body class="bg-dark text-light">
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="text-light">Liste des Services</h1>
+
+            <!-- Formulaire de recherche -->
+            <form method="get" action="{% url 'liste_services' %}">
+                <input type="text" name="q" value="{{ query }}" placeholder="Rechercher un service..." class="form-control" style="width: 250px; display: inline;">
+                <button type="submit" class="btn btn-secondary">Rechercher</button>
+            </form>
+
+            <!-- Bouton de déconnexion -->
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Déconnexion</button>
+            </form>
+
+            <a href="{% url 'ajouter_service' %}" class="btn btn-primary">+ Ajouter service</a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered bg-light text-dark">
+                <thead class="table-secondary text-center">
+                    <tr>
+                        <th>Code</th>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for services in services %}
+                    <tr class="text-center">
+                        <td>{{ services.code }}</td>
+                        <td>{{ services.nom }}</td>
+                        <td>{{ services.description }}</td>
+                        <td>
+                            <a href="{% url 'modifier_service' services.id %}" class="btn btn-sm btn-warning">✏️</a>
+                            <a href="{% url 'supprimer_service' services.id %}" class="btn btn-sm btn-danger">🗑️</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">Aucun service trouvé.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

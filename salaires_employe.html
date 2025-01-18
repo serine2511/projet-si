@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salaires de l'employé</title>
+</head>
+<body>  
+    <h2>Salaires</h2>
+    <ul>
+        {% for salaire in salaires %}
+        <h3> MOIS :{{ salaire.mois }} - {{ salaire.annee }}</h3>
+            <li><strong>Prime :</strong>{{ salaire.prime }} </li>
+            <li><strong>Retenue absence :</strong>{{ salaire.retenue_absence }} </li>
+            <li><strong>Absences :</strong>{{ salaire.absences }} </li>
+            <li><strong>Salaire de base :</strong>{{ salaire.salaire_de_base }} </li>
+            <a href="{% url 'demander_massrouf' salaire.id %}">Demander Massrouf</a>
+            <li><strong>Salaire :</strong>{{ salaire.calculer_salaire }} </li>
+            <a href="{% url 'fiche_paie' salaire.id %}">Voir Fiche</a>
+            {% empty %}
+            <li>Aucun salaire trouvé.</li>
+        {% endfor %}
+        
+    
+    </ul>
+
+    
+
+    
+</body>
+</html>
